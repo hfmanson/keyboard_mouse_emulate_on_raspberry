@@ -104,7 +104,7 @@ class BTKbDevice():
     # send a string to the bluetooth host machine
     def send_string(self, message):
         try:
-            self.cinterrupt.send(bytes(message))
+            self.cinterrupt.send(message)
         except OSError as err:
             error(err)
 
@@ -134,7 +134,7 @@ class BTKbService(dbus.service.Object):
             if(count < 10):
                 state[count] = int(key_code)
             count += 1
-        self.device.send_string(state)
+        self.device.send_string(bytes(state))
 
     @dbus.service.method('org.thanhle.btkbservice', in_signature='yay')
     def send_mouse(self, modifier_byte, keys):
@@ -144,7 +144,7 @@ class BTKbService(dbus.service.Object):
             if(count < 6):
                 state[count] = int(key_code)
             count += 1
-        self.device.send_string(state)
+        self.device.send_string(bytes(state))
 
 
 # main routine
